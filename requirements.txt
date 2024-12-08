@@ -1,0 +1,8 @@
+pandas
+numpy
+matplotlib
+ipykernel
+torch
+torch-vision
+datasets
+opencv-python
