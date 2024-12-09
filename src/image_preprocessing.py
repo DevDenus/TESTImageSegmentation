@@ -2,9 +2,9 @@ import os
 import numpy as np
 import cv2
 
+from concurrent.futures import ProcessPoolExecutor
 from datasets import Dataset, Features, Image
 from tqdm import tqdm
-from concurrent.futures import ProcessPoolExecutor
 
 
 ss_urbansyn_to_cityscapes_mapping = {
