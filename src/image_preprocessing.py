@@ -34,10 +34,12 @@ def preprocess_urbansyn_ss(ss_path : str, cache_dir : str = "./data/urbansyn/ss_
 
 def preprocess_image_folder(rgb_path : str, ss_path : str, cache_dir : str = "./data/urbansyn_ds") -> Dataset:
     """
-    Makes a huggingface dataset out of image folder
+    Makes a huggingface dataset out of image folder.
+    Returns resulting dataset
     rgb_path : str - path to images in form of 'rgb_n.png'
     ss_path : str - path to semantic segmentation masks in form of 'ss_n.png'
         corresponding to 'rgb_n.png'
+    cache_dir : str - path to save resulting Dataset
     """
     rgb_files = sorted([f for f in os.listdir(rgb_path) if f.endswith('.png')])
     ss_files = sorted([f for f in os.listdir(ss_path) if f.endswith('.png')])
