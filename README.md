@@ -23,6 +23,10 @@ Run this script in order to form a dataset, which is compatible with cityscapes 
 ```
 python ./src/image_preprocessing.py
 ```
+After run this script to combine both datasets into one, which will be used for training, testing and validating the model
+```
+python ./src/merge_datasets.py
+```
 You are ready to start the learning process!
 
 ### Datasets used for training
