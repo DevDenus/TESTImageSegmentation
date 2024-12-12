@@ -1,5 +1,5 @@
 # TESTImageSegmentation
-Implementation of image segmentation network learning algorithm using PyTorch
+Implementation of image segmentation Swin Transformer inspired network learning algorithm using PyTorch
 
 ### Getting started
 First of all downloading UrbanSyn dataset and unzipping it
@@ -30,5 +30,8 @@ python ./src/merge_datasets.py
 You are ready to start the learning process!
 
 ### Datasets used for training
-- https://huggingface.co/datasets/UrbanSyn/UrbanSyn
-- https://huggingface.co/datasets/Chris1/cityscapes
+- [UrbanSyn/UrbanSyn dataset](https://huggingface.co/datasets/UrbanSyn/UrbanSyn)
+- [Chris1/cityscapes dataset](https://huggingface.co/datasets/Chris1/cityscapes)
+
+### Additional resources
+- Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan Wei, Zheng Zhang, Stephen Lin, Baining Guo - [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](https://arxiv.org/pdf/2103.14030)

@@ -2,7 +2,8 @@ from torch import nn
 
 class PatchEmbedding(nn.Module):
     """
-    Makes input's patches of the same size
+    Makes input's embedding by patching it to the windows of the same size
+    and convoluting over each window
     """
     def __init__(self, embed_dim : int = 768, patch_size : int = 7, in_channels : int = 3):
         super().__init__()
@@ -26,7 +27,10 @@ class PatchEmbedding(nn.Module):
         return x
 
 class SwinBlock(nn.Module):
-    def __init__(self, embed_dim : int = 768, in_channels : int = 3, patch_size : int = 7, num_heads : int = 8,  mlp_ratio : int = 4):
+    """
+    Realization of Swin Transformer block
+    """
+    def __init__(self, embed_dim : int, in_channels : int = 3, patch_size : int = 7, num_heads : int = 8,  mlp_ratio : int = 4):
         super().__init__()
         self.patch_size = patch_size
         self.patch_embed = PatchEmbedding(embed_dim, patch_size, in_channels)
@@ -54,8 +58,10 @@ class SwinBlock(nn.Module):
         x = x.view(batch_size, embed_dim, patched_height, patched_width) # [B, embed_dim, H, W]
         return x
 
-
 class SwinStage(nn.Module):
+    """
+    Realization of Swin Stage
+    """
     def __init__(self, input_dim : int, output_dim : int, depth : int = 2):
         super().__init__()
         self.downsample = nn.Conv2d(input_dim, output_dim, kernel_size=3, stride=2, padding=1)
@@ -69,6 +75,9 @@ class SwinStage(nn.Module):
         return x
 
 class SwinTransformer(nn.Module):
+    """
+    Realization of Swin Transformer
+    """
     def __init__(self, num_classes : int, hidden_dim : int = 64):
         super().__init__()
         self.stage1 = SwinStage(3, hidden_dim, 2)
@@ -86,6 +95,6 @@ class SwinTransformer(nn.Module):
         x = self.stage3(x)
         x = self.stage4(x)
         x = self.conv(x) # [B, num_classes, height', width']
-        x = x.permute(0, 2, 3, 1) # [B, height', width', num_classes]
         x = nn.functional.interpolate(x, size=(height, width), mode='bilinear')
+        x = x.permute(0, 2, 3, 1) # [B, height', width', num_classes]
         return x
