@@ -4,5 +4,6 @@ matplotlib
 ipykernel
 torch
 torch-vision
+torchsummary
 datasets
 opencv-python
