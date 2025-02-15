@@ -83,8 +83,10 @@ class SwinTransformer(nn.Module):
         self.stage1 = SwinStage(3, hidden_dim, 2)
         self.stage2 = SwinStage(hidden_dim, 2*hidden_dim, 2)
         self.stage3 = SwinStage(2*hidden_dim, 4*hidden_dim, 6)
-        self.stage4 = SwinStage(4*hidden_dim, 8*hidden_dim, 2)
-        self.conv = nn.Conv2d(8*hidden_dim, num_classes, kernel_size=1)
+        self.conv_transpose1 = nn.ConvTranspose2d(4*hidden_dim, 2*hidden_dim, kernel_size=16, stride=16)
+        self.conv_transpose2 = nn.ConvTranspose2d(2*hidden_dim, num_classes, kernel_size=16, stride=16)
+        self.conv = nn.Conv2d(num_classes, num_classes, kernel_size=1)
+
 
     def forward(self, x):
         # x : [B, height, width, channels]
@@ -93,8 +95,9 @@ class SwinTransformer(nn.Module):
         x = self.stage1(x)
         x = self.stage2(x)
         x = self.stage3(x)
-        x = self.stage4(x)
+        x = self.conv_transpose1(x)
+        x = self.conv_transpose2(x)
         x = self.conv(x) # [B, num_classes, height', width']
-        x = nn.functional.interpolate(x, size=(height, width), mode='bilinear')
+        x = nn.functional.interpolate(x, size=(height, width), mode='bilinear', align_corners=True)
         x = x.permute(0, 2, 3, 1) # [B, height', width', num_classes]
         return x
